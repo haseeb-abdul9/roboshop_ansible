@@ -4,7 +4,7 @@
 #systemctl enable nginx &>>$log_file
 #func_stat_check $?
 
-- mame: Install Nginx
+- name: Install Nginx
   ansible.builtin.yum:
     name: nginx
     state: installed
