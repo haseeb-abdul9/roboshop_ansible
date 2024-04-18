@@ -4,12 +4,12 @@
     state: installed
 
 - name: Copy conf file
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
 
 - name: Remove Nginx content
-  ansible.builtin.template:
+  ansible.builtin.file:
     path: /usr/share/nginx/html
     state: absent
 
