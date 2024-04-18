@@ -1,17 +1,10 @@
-#func_print_head "add application user"
-#id ${app_user} &>>$log_file
-#if [ $? -ne 0 ]; then
-#useradd ${app_user} &>>$log_file
-#fi
-#func_stat_check $?
-#
 #func_print_head "Navigate to app directory"
 #rm -rf /app &>>$log_file
 #mkdir /app &>>$log_file
 #func_stat_check $?
 #
 #func_print_head "Download app content"
-#curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>$log_file
+#curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip
 #func_stat_check $?
 #cd /app &>>$log_file
 #func_stat_check $?
@@ -23,3 +16,14 @@
 - name: add application user
   ansible.builtin.user:
     name: "{{app_user}}"
+
+- name: Remove Nginx content
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Download app content
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
+    dest: /usr/share/nginx/html
+    remote_src: true
