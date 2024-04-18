@@ -22,16 +22,16 @@
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
     dest: /usr/share/nginx/html
-    remote_src: yes
+    remote_src: true
 
-#- name: Start service
+#- name: Start Nginx
 #  ansible.builtin.systemd:
-#    name: nginx
 #    state: restarted
+#    name: nginx
 #    enabled: true
 #
-- name: Start Nginx
-  ansible.builtin.systemd:
-    state: restarted
-    name: nginx
-    enabled: true
+#  func_print_head "Start service"
+#  systemctl restart nginx &>>$log_file
+#  func_stat_check $?
+#  systemctl enable nginx &>>$log_file
+#  func_stat_check $?
