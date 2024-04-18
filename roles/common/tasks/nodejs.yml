@@ -14,6 +14,16 @@
     name: nodejs
     state: installed
 
+- name: app_prereq
+  ansible.builtin.import_tasks:
+    file: app_prereq.yml
+
+- name: Install dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+
 
 
 
