@@ -37,5 +37,3 @@
   when: schema_setup == "mysql"
 
 
-
-
