@@ -12,7 +12,12 @@
 
 - name: Install dependencies
   ansible.builtin.shell: pip3.6 install -r requirements.txt
+  args:
+    chdir: /app
 
 - name: Include Systemd
   ansible.builtin.import_tasks:
     file: systemd_setup.yml
+
+
+
