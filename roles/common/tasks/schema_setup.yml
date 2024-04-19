@@ -34,7 +34,7 @@
         state: installed
     - name: Change mysql default password
       ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', 'dev.shipping.db_host', region='us-east-1' ) }} -u{{ lookup('amazon.aws.aws_ssm', 'dev.shipping.db_user', region='us-east-1' ) }} -p{{ lookup('amazon.aws.aws_ssm', 'dev.shipping.db_password', region='us-east-1' ) }} < /app/schema/shipping.sql
-    when: schema_setup == "mysql"
+  when: schema_setup == "mysql"
 
 
 
