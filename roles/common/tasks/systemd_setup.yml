@@ -1,0 +1,18 @@
+
+#func_print_head "Start service"
+#systemctl daemon-reload &>>${log_file}
+#systemctl enable ${component} &>>$log_file
+#systemctl restart ${component} &>>$log_file
+#func_stat_check $?
+
+- name: setup service file
+  ansible.builtin.template:
+    src: {{component}}.service
+    dest: /etc/systemd/system/${component}.service
+
+- name: Start {{component}}
+  ansible.builtin.systemd:
+    name: "{{component}}"
+    state: restarted
+    enabled: true
+    daemon-reload: true

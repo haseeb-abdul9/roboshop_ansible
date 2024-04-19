@@ -20,20 +20,22 @@
 #mysql -h mysql-dev.haseebdevops.online -uroot -p${mysql_root_pass} < /app/schema/shipping.sql &>>${log_file}
 #func_stat_check $?
 
-- name: Setup repo file
-  ansible.builtin.copy:
-    src: mongo.repo
-    dest: /etc/yum.repos.d/mongo.repo
+
+- name: load mongodb schema
+  block:
+    - name: Setup repo file
+      ansible.builtin.copy:
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongo.repo
+
+    - name: Install Mongo client
+      ansible.builtin.yum:
+        name: mongodb-org-shell
+        state: installed
+
+    - name: load schema
+      ansible.builtin.shell: mongo --host {{ lookup('amazon.aws.aws_ssm', 'dev.catalogue.mongo.endpoint', region='us-east-1' ) }} </app/schema/catalogue.js
   when: schema_setup == "mongo"
 
-- name: Install Mongo client
-  ansible.builtin.yum:
-    name: mongodb-org-shell
-    state: installed
-  when: schema_setup == "mongo"
-
-- name: load schema
-  ansible.builtin.shell: mongo --host {{ lookup('amazon.aws.aws_ssm', 'dev.catalogue.mongo.endpoint', region='us-east-1' ) }} </app/schema/catalogue.js
-  when: schema_setup == "mongo"
 
 
