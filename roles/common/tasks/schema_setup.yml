@@ -1,16 +1,4 @@
-#if [ "$load_schema" == "mongo" ]; then
-#func_print_head  "Setup repo file"
-#cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo &>>${log_file}
-#func_stat_check $?
-#
-#func_print_head "Install Mongo client"
-#dnf install mongodb-org-shell -y &>>${log_file}
-#func_stat_check $?
-#
-#func_print_head "load schema"
-#mongo --host mongodb-dev.haseebdevops.online </app/schema/catalogue.js &>>${log_file}
-#func_stat_check $?
-#fi
+
 #if [ "$load_schema" == "mysql" ]; then
 #func_print_head "Load schema"
 #dnf install mysql -y &>>${log_file}
@@ -36,6 +24,17 @@
     - name: load schema
       ansible.builtin.shell: mongo --host {{ lookup('amazon.aws.aws_ssm', 'dev.catalogue.mongo.endpoint', region='us-east-1' ) }} </app/schema/{{component}}.js
   when: schema_setup == "mongo"
+
+
+- name: load mysql schema
+  block:
+    - name: Load schema
+      ansible.builtin.yum:
+        name: mysql
+        state: installed
+    - name: Change mysql default password
+      ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', 'dev.shipping.db_host', region='us-east-1' ) }} -u{{ lookup('amazon.aws.aws_ssm', 'dev.shipping.db_user', region='us-east-1' ) }} -p{{ lookup('amazon.aws.aws_ssm', 'dev.shipping.db_password', region='us-east-1' ) }} < /app/schema/shipping.sql
+
 
 
 
