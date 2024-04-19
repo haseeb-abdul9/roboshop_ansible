@@ -1,0 +1,30 @@
+
+#func_app_prereq
+#
+#func_print_head "Install dependencies"
+#pip3.6 install -r requirements.txt &>>$log_file
+#func_stat_check $?
+#
+#func_print_head "Change pass"
+#sed -i -e "s|mysql_root_pass|${mysql_root_pass}|" "${script_path}/payment.service" &>> "$log_file"
+#func_stat_check $?
+#func_systemd_setup
+
+- name: Install python
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel
+    state: installed
+
+- name: app_prereq
+  ansible.builtin.import_tasks:
+    file: app_prereq.yml
+
+- name: Install dependencies
+  ansible.builtin.shell: pip3.6 install -r requirements.txt
+
+- name: Include Systemd
+  ansible.builtin.import_tasks:
+    file: systemd_setup.yml
