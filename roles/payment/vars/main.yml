@@ -1,1 +1,2 @@
 component: payment
+log_file: /var/log/nginx/access.log
