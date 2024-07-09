@@ -17,4 +17,4 @@ setup.template.settings:
   index.number_of_shards: 1
 processors:
   - drop_fields:
-      fields: ["%{HTTPDATE:date}%{SPACE}%{IP:source_ip}%{SPACE}%{WORD:http_method}%{SPACE}%{PATH:http_path}%{SPACE}%{WORD:http_protocol}/%{NUMBER:http_proto_version:float}%{SPACE}%{NUMBER:http_response:int}%{SPACE}%{NUMBER:response_time:float}"]
+      fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.type", "agent.version", "ecs.version", "input.type", "log.offset", "agent.name", "log.file.device_id", "log.file.inode"]
