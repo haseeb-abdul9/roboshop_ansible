@@ -1,2 +1,2 @@
 component: cart
-log_file: /var/log/nginx/access.log
+log_file: /var/log/cart/access.log
