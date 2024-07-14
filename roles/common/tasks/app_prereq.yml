@@ -17,6 +17,3 @@
     src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
     dest: /app
     remote_src: true
-    filters:
-      - name: tag:Monitor
-        values: ["true"]
