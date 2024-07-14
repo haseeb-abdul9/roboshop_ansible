@@ -33,3 +33,8 @@
 - name: Include Schema
   ansible.builtin.import_tasks:
     file: schema_setup.yml
+
+- name: import prometheus
+  ansible.builtin.import_role:
+    name: prometheus
+    task_from: node_exporter
