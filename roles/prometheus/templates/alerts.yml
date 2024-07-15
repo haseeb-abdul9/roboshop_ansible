@@ -18,7 +18,7 @@ groups:
           summary: High Memory Usage
 
       - alert: ServerDown
-        expr: UP < 1
+        expr: up < 1
         for: 1m
         labels:
           severity: page
@@ -28,10 +28,10 @@ groups:
       { % for component in components % }
 
       - alert: ServiceDown-{{component.name}}
-        expr: node_systemd_unit_state {component = "{{component.name}}", exported_name = "{{component.service_name}}.service", state = "active"} < 1
+        expr: node_systemd_unit_state{component="{{component.name}}", exported_name="{{component.service_name}}.service", state = "active"} < 1
         for: 1m
         labels:
           severity: page
         annotations:
-          summary: {{component.name}} - component Server Down
+          summary: {{component.name}}  component - Server Down
       {%- endfor %}
