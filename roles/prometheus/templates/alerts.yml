@@ -2,7 +2,7 @@ groups:
   - name: ec2_nodes
     rules:
       - alert: HighCPUUtilization
-        expr: 100 - (avg by (component, env, instance, job, name) (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100)) > 40
+        expr: 100 - (avg by (component, env, instance, job, name) (rate(node_cpu_seconds_total{mode="idle"}[1m]) * 100)) > 80
         for: 1m
         labels:
           severity: page
@@ -10,7 +10,7 @@ groups:
           summary: High CPU Usage
 
       - alert: HighMemoryUtilization
-        expr: 100 - (100 * ((node_memory_MemFree_bytes+node_memory_Cached_bytes+node_memory_Buffers_bytes)/node_memory_MemTotal_bytes)) > 40
+        expr: 100 - (100 * ((node_memory_MemFree_bytes+node_memory_Cached_bytes+node_memory_Buffers_bytes)/node_memory_MemTotal_bytes)) > 80
         for: 1m
         labels:
           severity: page
