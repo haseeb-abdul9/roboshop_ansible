@@ -24,3 +24,14 @@ groups:
           severity: page
         annotations:
           summary: Server Down
+
+      { % for component in components % }
+
+      - alert: ServiceDown-{{component.name}}
+        expr: node_systemd_unit_state {component = "{{component.name}}", exported_name = "{{component.service_name}}", state = "active"} < 1
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: {{component.name}} - component Server Down
+      {%- endfor %}
