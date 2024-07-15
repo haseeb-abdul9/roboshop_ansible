@@ -7,3 +7,6 @@
   ansible.builtin.systemd:
     name: prometheus
     state: restarted
+
+- name: prometheus port check
+  ansible.builtin.shell: sleep 10 ; netstat -lntp | grep 9090
